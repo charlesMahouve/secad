@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container" id="delete-category">
+        <div class="block">
+            <a href="{% url 'testzone' %}" class="button is-link"> Go Back </a>
+        </div>
+        <h1 class="title"> {{ individualtestzones.title}} [[ message ]]</h1>
+        <div class="columns">
+            <div class="column is-full">
+                <div class="content">
+                    <div > Description : {{ individualtestzones.description }} </div>
+                    <div> Runned by : {{ individualtestzones.run_by}} </div>
+                    <div> Runned at : {{ individualtestzones.run_at }} </div>
+                    <div> Runned in : {{ individualtestzones.run_in }}</div>
+                    <div> Test time : {{ individualtestzones.forest_mode }}</div>
+                    <div> Forest mode : {{ individualtestzones.schema_master }}</div>
+                    <div> Operating system : {{ individualtestzones.operating_system }}</div>
+                    <div> Enabled : {{ individualtestzones.enabled }}</div>
+                    <div> Schema master : {{ individualtestzones.schema_master }}</div>
+                    <div> Present : {{ individualtestzones.present}}</div>
+                    <div> Servers : {{ individualtestzones.servers}}</div>
+                    <div> sid_filtering_forest_aware : {{ individualtestzones.sid_filtering_forest_aware}}</div>
+                    <div> sid_filtering_quarantined : {{ individualtestzones.sid_filtering_quarantined}}</div>
+                    <div> tgt_delegation : {{ individualtestzones.tgt_delegation}}</div>
+                    <div> domain_mode : {{ individualtestzones.domain_mode}}</div>
+                    <div> infrastructure_master : {{ individualtestzones.infrastructure_master}}</div>
+                    <div> pdc_emulator : {{ individualtestzones.pdc_emulator}}</div>
+                    <div> rid_master : {{ individualtestzones.rid_master}}</div>
+                    <div> Source : {{ individualtestzones.source}}</div>
+                    <div> password_history_count : {{ individualtestzones.password_history_count}}</div>
+                    <div> max_password_age : {{ individualtestzones.max_password_age}}</div>
+                    <div> min_password_age : {{ individualtestzones.min_password_age}}</div>
+                    <div> reversible_encryption_enabled : {{ individualtestzones.reversible_encryption_enabled}}</div>
+                    <div> complexity_enabled : {{ individualtestzones.complexity_enabled}}</div>
+                    <div> min_password_length : {{ individualtestzones.min_password_length}}</div>
+                    <div> lockout_duration : {{ individualtestzones.lockout_duration}}</div>
+                    <div> lockout_observation_window : {{ individualtestzones.lockout_observation_window}}</div>
+                    <div> lockout_threshold : {{ individualtestzones.lockout_threshold}}</div>
+                    <div> applies_to : {{ individualtestzones.applies_to}}</div>
+                    <div> Name : {{ individualtestzones.name}}</div>
+                    <div> protected_from_accidental_deletion : {{ individualtestzones.protected_from_accidental_deletion}}</div>
+                    <div> gpo_inheritance_blocked : {{ individualtestzones.gpo_inheritance_blocked}} </div>
+                    <div> groups_with_sid_history by : {{ individualtestzones.groups_with_sid_history}} </div>
+                    <div> members1 : {{ individualtestzones.members1}} </div>
+                    <div> members2 : {{ individualtestzones.members2}} </div>
+                    <div> users : {{ individualtestzones.users}} </div>
+                    <div> groups : {{ individualtestzones.groups}} </div>
+                    <div> global_groups : {{ individualtestzones.global_groups}} </div>
+                    <div> universal_groups : {{ individualtestzones.universal_groups}} </div>
+                    <div> modification_time : {{ individualtestzones.modification_time}} </div>
+                    <div> enabled  : {{ individualtestzones.enabled }} </div>
+                    <div> enforced : {{ individualtestzones.enforced}} </div>
+                    <div> check_type : {{ individualtestzones.check_type}} </div>
+                    <div> all_users_whose_password_never_expires : {{ individualtestzones.all_users_whose_password_never_expires}} </div>
+                    <div> all_users_with_password_not_required : {{ individualtestzones.all_users_with_password_not_required}} </div>
+                    <div> all_users_who_cannot_change_password : {{ individualtestzones.all_users_who_cannot_change_password}} </div>
+                    <div> all_users_with_sid_history : {{ individualtestzones.all_users_with_sid_history}} </div>
+                    <div> all_users_with_bad_primary_group : {{ individualtestzones.all_users_with_bad_primary_group}} </div>
+                    <div> active_users_whose_password_never_expires : {{ individualtestzones.active_users_whose_password_never_expires}} </div>
+                    <div> active_users_whose_password_not_required : {{ individualtestzones.active_users_whose_password_not_required}} </div>
+                    <div> active_users_who_cannot_change_password : {{ individualtestzones.active_users_who_cannot_change_password}} </div>
+                    <div> member_of : {{ individualtestzones.member_of}} </div>
+                    <div> password_last_set : {{ individualtestzones.password_last_set}} </div>
+                    <div> password_never_expires : {{ individualtestzones.password_never_expires}} </div>
+                    <div> password_not_required : {{ individualtestzones.password_not_required}} </div>
+                    <div> display_name : {{ individualtestzones.display_name}} </div>
+                    <div> links_to_enabled : {{ individualtestzones.links_to_enabled}} </div>
+                    <div> gpo_status : {{ individualtestzones.gpo_status}} </div>
+                    <div> computer_extension_datas : {{ individualtestzones.computer_extension_datas}} </div>
+                    <div> user_extension_data : {{ individualtestzones.user_extension_data}} </div>
+                    <div> computer_sys_vol_version : {{ individualtestzones.computer_sys_vol_version}} </div>
+                    <div> user_sys_vol_version : {{ individualtestzones.user_sys_vol_version}} </div>
+                    <div> os_version : {{ individualtestzones.os_version}} </div>
+                    <div> activate : {{ individualtestzones.activate}} </div>
+                    <div> operating_systems : {{ individualtestzones.operating_systems}} </div>
+                    <div> maximum_kilo_bytes : {{ individualtestzones.maximum_kilo_bytes}} </div>
+                    <div> total_physical_memory : {{ individualtestzones.total_physical_memory}} </div>
+                    <div> bios : {{ individualtestzones.bios}} </div>
+                    <div> free_spaces : {{ individualtestzones.free_spaces}} </div>
+                    <div> dhcp_enabled : {{ individualtestzones.dhcp_enabled}} </div>
+                    <div> tcpi_net_bios_options : {{ individualtestzones.tcpi_net_bios_options}} </div>
+                    <div> enabled3 : {{ individualtestzones.enabled3}} </div>
+                    <div> transport : {{ individualtestzones.transport}} </div>
+                    <div> install_state : {{ individualtestzones.install_state}} </div>
+                    <div> scavenging_state : {{ individualtestzones.scavenging_state}} </div>
+                    <div> ip_address : {{ individualtestzones.ip_address}} </div>
+                    <div> replication_scope : {{ individualtestzones.replication_scope}} </div>
+                    <div> is_ds_intergrated : {{ individualtestzones.is_ds_intergrated}} </div>
+                    <div> aging_enabled : {{ individualtestzones.aging_enabled}} </div>
+                    <div> test_results : {{ individualtestzones.test_results}} </div>
+                 </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        new Vue({
+        el: '#delete-category',
+        delimiters: ['[[',']]'],
+        data (){
+            return {
+                message: 'Code with charles'
+            }
+        }
+    })
+    </script>
+{% endblock %}

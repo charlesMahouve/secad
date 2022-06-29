@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container" id="delete-category">
+        <h1 class="title"  > Test Zone </h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <article class="message is-{{ message.tags }}">
+                    <div class="message-body">
+                        {{ message }}
+                    </div>
+                </article>
+            {% endfor %}
+        {% endif %}
+        <a href="{% url 'testzone_add' %}" class="button is-link"> Add Test</a>
+        <a href="#" class="button is-link"> Launch Test</a>
+    </div>
+    <div class="container">
+        <div class="columns">
+            {% for TestCategory in TestCategories %}
+                <div class="column is-full">
+                    <div class="card card-link">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4"> {{ TestCategory.title }}</p>
+                                </div>
+                            </div>
+
+                            <div class="content">
+                                {{ TestCategory.description }}
+                            </div>
+                            <progress class="progress is-primary" value="{{ TestCategory.score }}" max="100">{{ TestCategory.score }}</progress>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="{% url 'individualtestzone' TestCategory.id %}" class="card-footer-item"> Details </a>
+                            <a href="{% url 'testzone_edit' TestCategory.id %}" class="card-footer-item"> Edit </a>
+                            <a href="#" class="card-footer-item"> Redo </a>
+                            <a href="{% url 'testzone_delete' TestCategory.id %}" class="card-footer-item"> Delete </a>
+                        </footer>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        new Vue({
+        el: #delete-category,
+        delimiters: ['[[',']]'],
+        data (){
+            return {
+                message: 'Code with charles'
+            }
+        }
+    })
+    </script>
+{% endblock %}

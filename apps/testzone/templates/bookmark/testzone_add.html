@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="title"> Add AD Test</h1>
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+            <button type="submit" class="button is-primary"> Submit</button>
+            <a href="{% url 'testzone' %}" class="button is-link"> Go Back </a>
+        </form>
+    </div>
+{% endblock %}
