@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="">
   <head>
@@ -5,13 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Secad</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+      <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src="https://cdn.cloudfare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+      <style>
+        #footer {
+            position: fixed;
+            padding: 10px 10px 0px 10px;
+            bottom: 0;
+            width: 100%;
+            /* Height of the footer*/
+            height: 60px;
+        }
+    </style>
+
   </head>
   <body>
   <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-          <a href="{% url 'frontpage' %}" class="navbar-item"> Secad</a>
+          <a href="{% url 'frontpage' %}" class="navbar-item">
+              <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="">
+          </a>
       </div>
       <div class="navbar-menu">
+      {% if request.user.is_authenticated %}
+        <div class="navbar-start">
+            <a href="{% url 'dashboard' %}" class="navbar-item"> Dashboard </a>
+            <a href="{% url 'testzone' %}" class="navbar-item"> Test Zone </a>
+        </div>
+      {% endif %}
           <div class="navbar-end">
               <div class="navbar-item">
                   <div class="buttons">
@@ -31,11 +55,13 @@
     {% block content %}
     {%  endblock %}
   </section>
-
-  <footer class="footer">
+  <footer class="footer" id="footer">
       <div class="content has-text-centered">
-          <p> <strong> Secad </strong> charles Mahouve</p>
+          <p> <strong> Secad </strong> </p>
       </div>
   </footer>
+
+    {% block scripts %}
+    {% endblock %}
   </body>
 </html>
