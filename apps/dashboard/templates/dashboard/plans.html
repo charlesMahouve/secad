@@ -1,0 +1,114 @@
+{% extends 'core/base.html' %}
+{% csrf_token %}
+
+{% block content %}
+    <div class="container" id="plans">
+        <h1 class="title"> Plans</h1>
+
+        {%  for p in products %}
+            <h2 class="subtitle"> {{ p.name }}</h2>
+
+            {% for plan in p.plan_set.all %}
+                <h3>{{ plan.human_readable_price}}</h3>
+
+                <input type="text" id="plan" value="{{ p.name }}"><br>
+                <input type="text" id="price" value="{{ plan.human_readable_price }}"><br>
+                <input type="text" id="priceId" value="{{ plan.id }}"><br>
+
+            {%  endfor %}
+        {% endfor %}
+        <form v-on:submit.prevent="buyPro">
+            <div id="card"></div>
+            <button> Buy </button>
+        </form>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="https://js.stripe.com/v3"></script>
+    <script type="text/javascript">
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                 }
+            }
+            return cookieValue;
+        }
+
+        new Vue({
+        el: '#plans',
+        delimiters: ['[[',']]'],
+        data () {
+            return {
+                stripe: Stripe("pk_test_zVXD8FleSxWPs3awlHUe6CTm00lD8lrBIs"),
+                elements: '',
+                card: '',
+            }
+        },
+            mounted() {
+                    this.elements = this.stripe.elements()
+                    this.card = this.elements.create('card');
+                    this.card.mount("#card")
+            },
+            methods: {
+                buyPro(){
+                    let billingName = '{{ request.user.username }}';
+
+                    this.stripe
+                        .createPaymentMethod({
+                            type: 'card',
+                            card: this.card,
+                            billing_details: {
+                                name: billingName
+                            },
+                        })
+                        .then((result) => {
+                            if (result.error) {
+                                alert('Error 1');
+                            } else {
+                                const paymentParams = {
+                                    price_id: document.getElementById('priceId').value,
+                                    payment_method: result.paymentMethod.id
+                                };
+
+                                fetch('/app/create-sub/',{
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSFRToken': '{{ crsf_token }}',
+                                    },
+                                    credentials: 'same-origin',
+                                    body: JSON.stringify(paymentParams),
+                                })
+                                    .then((response) => {
+                                        if (result.error) {
+                                            alert('Error 2');
+                                            throw result;
+                                        }
+                                        return result;
+                                    })
+
+                                    .then((result) => {
+                                        if (result && result.status === 'active') {
+                                            window.location.href = '/app/settings/plans/complete/';
+                                        }
+                                    })
+                                    .catch(function (error) {
+                                        alert('Error 3');
+                                    })
+
+                            }
+                        })
+                }
+            }
+        })
+    </script>
+{% endblock %}
