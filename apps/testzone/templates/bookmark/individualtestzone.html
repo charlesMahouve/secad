@@ -1,11 +1,11 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <div class="container" id="delete-category">
+    <div class="container" >
         <div class="block">
             <a href="{% url 'testzone' %}" class="button is-link"> Go Back </a>
         </div>
-        <h1 class="title"> {{ individualtestzones.title}} [[ message ]]</h1>
+        <h1 class="title"> {{ individualtestzones.title}} </h1>
         <div class="columns">
             <div class="column is-full">
                 <div class="content">
@@ -89,22 +89,8 @@
                     <div> is_ds_intergrated : {{ individualtestzones.is_ds_intergrated}} </div>
                     <div> aging_enabled : {{ individualtestzones.aging_enabled}} </div>
                     <div> test_results : {{ individualtestzones.test_results}} </div>
-                 </div>
+                 </div><q>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </q>
             </div>
         </div>
-
     </div>
-{% endblock %}
-{% block scripts %}
-    <script>
-        new Vue({
-        el: '#delete-category',
-        delimiters: ['[[',']]'],
-        data (){
-            return {
-                message: 'Code with charles'
-            }
-        }
-    })
-    </script>
 {% endblock %}

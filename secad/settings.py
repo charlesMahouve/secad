@@ -32,6 +32,12 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'frontpage'
 
+STRIPE_TEST_PUBLIC_KEY = 'pk_test_zVXD8FleSxWPs3awlHUe6CTm00lD8lrBIs'
+STRIPE_TEST_SECRET_KEY = 'sk_test_K6d4rWVdRWwlGXyP2zkijdRT003wMhNSc8'
+STRIPE_LIVE_MODE = False
+DJSTRIPE_WEBHOOK_SECRET = 'whsec_xxx'
+DJSTRIPE_FOREIGN_KEY_TO_FIELD = 'id'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,11 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'djstripe',
     # other apps
     # 'apps.core.apps.AppConfig',
     'apps.core',
     'apps.dashboard',
     'apps.testzone',
+    'apps.userprofile',
+    'apps.resultmanagement',
 
 
 ]

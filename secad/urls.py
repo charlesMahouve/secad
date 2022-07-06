@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.contrib.auth import views
 from django.urls import path, include
 
-from apps.core.views import frontpage, signup, login
+from apps.core.views import frontpage, signup, login, plans
 
 urlpatterns = [
     path('', frontpage, name='frontpage'),
+    path('plans/', plans, name="plans"),
     path('app/', include('apps.dashboard.url')),
     path('signup/', signup, name='signup'),
     path('login/', views.LoginView.as_view(template_name='core/login.html'), name='login'),

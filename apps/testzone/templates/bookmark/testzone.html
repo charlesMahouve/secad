@@ -1,8 +1,10 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div class="container">
     <div class="container" id="delete-category">
         <h1 class="title"  > Test Zone </h1>
+        <h2 class="subtitle"> {{ TestCategories | length }} Tests </h2>
 
         {% if messages %}
             {% for message in messages %}
@@ -33,29 +35,71 @@
                             </div>
                             <progress class="progress is-primary" value="{{ TestCategory.score }}" max="100">{{ TestCategory.score }}</progress>
                         </div>
-                        <footer class="card-footer">
+                        <footer class="card-footer" id="delete-category">
                             <a href="{% url 'individualtestzone' TestCategory.id %}" class="card-footer-item"> Details </a>
                             <a href="{% url 'testzone_edit' TestCategory.id %}" class="card-footer-item"> Edit </a>
                             <a href="#" class="card-footer-item"> Redo </a>
-                            <a href="{% url 'testzone_delete' TestCategory.id %}" class="card-footer-item"> Delete </a>
+                            <a href="{% url 'testzone_chiffrer' TestCategory.id %}" class="card-footer-item"> Chiffrer </a>
+                            <a @click="toggleDialog({{ TestCategory.id }})" class="card-footer-item" > Delete </a>
                         </footer>
                     </div>
                 {% endfor %}
             </div>
         </div>
+
+    <div class="modal" v-bind:class="{ 'is-active' : showDialog }">
+        <div class="modal-background"></div>
+
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title" > Are you sure ?</p>
+                <button class="delete" aria-label="close" @click="showDialog = !showDialog"></button>
+            </header>
+
+            <section class="modal-card-body">
+                If you delete this Test, all results belonging to it will be deleted as well !
+            </section>
+
+            <footer class="modal-card-foot">
+                <button class="button is-success" @click="deleteTest()"> Yes, Delete</button>
+                <button class="button" @click="showDialog = !showDialog"> Cancel </button>
+            </footer>
+        </div>
     </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
     <script>
         new Vue({
-        el: #delete-category,
+        el: '#delete-category',
         delimiters: ['[[',']]'],
-        data (){
+        data () {
             return {
-                message: 'Code with charles'
+                showDialog: false,
+                TestCategory_id: 0,
             }
-        }
+        },
+            methods: {
+                toggleDialog(id) {
+                    this.TestCategory_id = id
+                    this.showDialog = true
+                },
+                deleteTest() {
+                    axios.post('/app/api/testzone_delete/' + this.TestCategory_id + '/')
+                        .then((response) => {
+                            console.log(response)
+
+                            this.showDialog = false
+
+                            window.location.href = '/app/testzone/'
+                        })
+                        .catch((function (error) {
+                            console.log(error )
+                        }))
+                }
+            }
     })
     </script>
 {% endblock %}

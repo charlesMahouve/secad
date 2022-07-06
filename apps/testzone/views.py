@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import TestCategory
 
 from .forms import CategoryForm
+from apps.dashboard.forms import PricingForm
 
 
 # Create your views here.
@@ -34,6 +35,14 @@ def individualtestzone(request, individualtestzone_id):
 
 @login_required
 def testzone_add(request):
+    canAdd = ''
+
+    testnumbers = request.user.TestCategories.all().count()
+    if testnumbers >= 500 and request.user.userprofile.plan == 'pro':
+        canAdd = 'You can\'t have more than 5OO tests when you\'re on the Pro plan'
+    if testnumbers >= 5 and request.user.userprofile.plan == 'basic':
+        canAdd = 'You can\'t have more than 5 tests when you\'re on the basic plan'
+
     if request.method == 'POST':
         form = CategoryForm(request.POST)
 
@@ -49,7 +58,8 @@ def testzone_add(request):
         form = CategoryForm()
 
     context = {
-        'form': form
+        'form': form,
+        'canAdd': canAdd
     }
     return render(request, 'bookmark/testzone_add.html', context)
 
@@ -82,3 +92,27 @@ def testzone_delete(request, individualtestzone_id):
     messages.success(request, 'The Test has been deleted')
 
     return redirect('testzone')
+
+
+@login_required
+def testzone_chiffrer(request, individualtestzone_id):
+    individualtestzone = TestCategory.objects.filter(run_by=request.user).get(pk=individualtestzone_id)
+    if request.method == 'POST':
+        form = PricingForm(request.POST)
+
+        if form.is_valid():
+            individual_priced_item = form.save(commit=False)
+            individual_priced_item.made_by = request.user
+            individual_priced_item.save()
+
+            messages.success(request, 'The Money has been added')
+
+            return redirect('dashboard')
+    else:
+        form = PricingForm()
+
+    context = {
+        'form': form,
+        'individualtestzone': individualtestzone,
+    }
+    return render(request, 'bookmark/testzone_chiffrer.html', context)

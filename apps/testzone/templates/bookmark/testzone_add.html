@@ -1,14 +1,38 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container" id="add-test">
+        <a href="{% url 'testzone' %}" class="button is-link"> Go Back </a>
         <h1 class="title"> Add AD Test</h1>
-        <form method="post" action=".">
-            {% csrf_token %}
+        {% if canAdd|length == 0 %}
+            <form method="post" action=".">
+                {% csrf_token %}
 
-            {{ form.as_p }}
-            <button type="submit" class="button is-primary"> Submit</button>
-            <a href="{% url 'testzone' %}" class="button is-link"> Go Back </a>
-        </form>
+                {{ form.as_p }}
+                <button type="submit" class="button is-primary"> Submit</button>
+            </form>
+        {% else%}
+            <article class="message is-danger">
+                <div class="message-body">
+                    {{ canAdd }}
+                </div>
+            </article>
+        {% endif %}
     </div>
 {% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        new Vue({
+        el: '#add-test',
+        delimiters: ['[[',']]'],
+        data () {
+            return {
+                title: '',
+            }
+        }
+        })
+    </script>
+{% endblock %}
+
+#numero 14
+#TODO

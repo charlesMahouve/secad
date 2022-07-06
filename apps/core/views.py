@@ -3,10 +3,15 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 
 
+from apps.userprofile.models import Userprofile
+
+
 # Create your views here.
 def frontpage(request):
     return render(request, 'core/frontpage.html')
 
+def plans(request):
+    return render(request, 'core/plans.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -15,6 +20,8 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+
+            userprofile = Userprofile.objects.create(user=user)
 
             return redirect('frontpage')
     else:

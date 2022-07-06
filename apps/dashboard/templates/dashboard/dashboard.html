@@ -1,31 +1,36 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+
     <div class="container">
-        <h1 class="title"> Dashboard</h1>
+        <h1 class="title"> Chiffrage </h1>
+        <div class="container">
+            {% for PricingCategory in PricingCategories %}
+                <div class="columns">
+                    <div class="column is-full">
+                        <div class="card card-link">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <p class="title is-4"> {{ PricingCategory.title }}</p>
+                                    </div>
+                                </div>
 
-        <div class="columns">
-            <div class="column is-full">
-                <div class="card card-link">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4"> Chiffrage </p>
+                                <div class="content">
+                                    {{ PricingCategory.description }}
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="content">
-                            This is the link description
+                            <footer class="card-footer" id="delete-category">
+                                <a href="{% url 'individual_priced_item' PricingCategory.id %}" class="card-footer-item"> Details </a>
+                                <a href="#" class="card-footer-item"> Edit </a>
+                                <a href="#" class="card-footer-item"> Send </a>
+                                <a href="{% url 'individual_priced_item_delete' PricingCategory.id %}" class="card-footer-item" > Delete </a>
+                            </footer>
                         </div>
                     </div>
 
-                    <footer class="card-footer">
-                        <a href="#" class="card-footer-item" target="_blank"> Visit </a>
-                        <a href="#" class="card-footer-item"> Edit </a>
-                    </footer>
-                </div>
             </div>
-
+            {% endfor %}
         </div>
 
     </div>

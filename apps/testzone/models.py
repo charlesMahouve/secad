@@ -94,7 +94,7 @@ class TestCategory(models.Model):
     deletion = models.CharField(max_length=50, null=True)
 
     class Meta:
-        verbose_name_plural = 'Test Categories'
+        verbose_name_plural = 'TestCategories'
 
     def __str__(self):
         return self.title
