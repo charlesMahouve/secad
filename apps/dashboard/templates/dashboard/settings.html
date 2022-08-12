@@ -2,9 +2,14 @@
 
 {% block content %}
 <div class="container">
-    <h1 class="title"> Settings </h1>
-
-    <a href="{% url 'plans' %}" class="button"> Plans </a>
+    <div class="columns is-multiline">
+        <div class="column is-12">
+            <h1 class="title"> Settings </h1>
+        </div>
+        <div class="column is-12">
+            <a href="{% url 'plans' %}" class="button is-primary"> See Plans </a>
+        </div>
+    </div>
 
     {% if messages %}
             {% for message in messages %}
@@ -34,27 +39,9 @@
                     </div>
                 </div>
                 <div class="field">
-                    <label class="label"> Email</label>
+                    <label class="label"> Username</label>
                     <div class="control">
                         <input type="text" class="input" name="username" value="{{ request.user.username }}">
-                    </div>
-                </div>
-
-                <div class="field">
-                    <label class="label"> Plans </label>
-                    <div class="control">
-                        <div class="select">
-                            <select name="plan">
-                                <option value="basic"
-                                        {% if request.user.userprofile.plan == 'basic' %} selected="selected"{% endif %}>
-                                            Basic
-                                </option>
-                                <option value="pro"
-                                        {% if request.user.userprofile.plan == 'pro' %} selected="selected"{% endif %}>
-                                            Pro
-                                </option>
-                            </select>
-                        </div>
                     </div>
                 </div>
 

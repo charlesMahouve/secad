@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'frontpage'
@@ -38,16 +39,22 @@ STRIPE_LIVE_MODE = False
 DJSTRIPE_WEBHOOK_SECRET = 'whsec_xxx'
 DJSTRIPE_FOREIGN_KEY_TO_FIELD = 'id'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+MEDIA_URL = '/img/'
+
 # Application definition
 
 INSTALLED_APPS = [
+    'baton',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'baton.autodiscover',
     'djstripe',
+    'bootstrap5',
     # other apps
     # 'apps.core.apps.AppConfig',
     'apps.core',
@@ -55,6 +62,8 @@ INSTALLED_APPS = [
     'apps.testzone',
     'apps.userprofile',
     'apps.resultmanagement',
+    'apps.rules_management',
+    'apps.files_management'
 
 
 ]

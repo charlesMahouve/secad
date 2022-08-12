@@ -6,9 +6,10 @@ from .models import TestCategory
 
 from .forms import CategoryForm
 from apps.dashboard.forms import PricingForm
-
+from apps.rules_management.models import AdminFileManager
 
 # Create your views here.
+
 
 @login_required
 def testzone(request):
@@ -38,9 +39,9 @@ def testzone_add(request):
     canAdd = ''
 
     testnumbers = request.user.TestCategories.all().count()
-    if testnumbers >= 500 and request.user.userprofile.plan == 'pro':
+    if testnumbers >= 500 and request.user.userprofile.isPro():
         canAdd = 'You can\'t have more than 5OO tests when you\'re on the Pro plan'
-    if testnumbers >= 5 and request.user.userprofile.plan == 'basic':
+    if testnumbers >= 5 and not request.user.userprofile.isPro():
         canAdd = 'You can\'t have more than 5 tests when you\'re on the basic plan'
 
     if request.method == 'POST':

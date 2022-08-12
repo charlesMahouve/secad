@@ -2,6 +2,8 @@
 {% csrf_token %}
 
 {% block content %}
+<!-- if not request.user.userprofile.isPro == 'active' -->
+{% if request.user.userprofile.isPro == 'Basic' %}
     <div class="container" id="plans">
         <h1 class="title"> Plans</h1>
 
@@ -18,11 +20,49 @@
             {%  endfor %}
         {% endfor %}
         <form v-on:submit.prevent="buyPro">
+            <h3 class="subtitle"> Card information </h3>
             <div id="card"></div>
-            <button> Buy </button>
+            <hr>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-primary"> Buy </button>
+                </div>
+            </div>
         </form>
     </div>
+{% else %}
+
+    <div class="container has-text-centered">
+        <br><br><br>
+            <div class="columns is-multiline">
+            <div class="column is-12">
+                <h1 class="subtitle"> Your subscription is now active </h1>
+                <a class="button is-primary" href="{% url 'testzone'%}"> Return home</a>
+                <br><br>
+                <form method="post" action="{% url 'delete_sub' %}">
+                    {% csrf_token %}
+                    <div class="field">
+                    <div class="control">
+                        <div  name="cancel_plan" value="{{ request.user.userprofile.plan }}">
+                            {{ request.user.userprofile.plan }} Membership
+                        </div>
+                        <div  name="cancel_plan" value="{{ request.user.userprofile.plan }}">
+                            rights till {{ request.user.userprofile.plan }}
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-danger"> Cancel Membership </button>
+                             </div>
+                </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
+
 {% block scripts %}
     <script src="https://js.stripe.com/v3"></script>
     <script type="text/javascript">
@@ -88,18 +128,8 @@
                                     credentials: 'same-origin',
                                     body: JSON.stringify(paymentParams),
                                 })
-                                    .then((response) => {
-                                        if (result.error) {
-                                            alert('Error 2');
-                                            throw result;
-                                        }
-                                        return result;
-                                    })
-
-                                    .then((result) => {
-                                        if (result && result.status === 'active') {
-                                            window.location.href = '/app/settings/plans/complete/';
-                                        }
+                                    .then(() => {
+                                            window.location.href = '/app/settings/';
                                     })
                                     .catch(function (error) {
                                         alert('Error 3');
@@ -107,7 +137,7 @@
 
                             }
                         })
-                }
+                },
             }
         })
     </script>

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 import djstripe.settings
+from djstripe.settings import djstripe_settings
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -12,9 +13,33 @@ import stripe
 from django.http import JsonResponse
 from djstripe.models import Product
 from djstripe import settings
+from django.views.decorators.csrf import csrf_exempt
+from apps.userprofile.models import Userprofile
+from apps.userprofile.form import UserProfileForm
 
 
 # Create your views here.
+@login_required
+def more_info_user(request):
+    user = request.user.userprofile
+    # print(user)
+    form = UserProfileForm(instance=user)
+    # print(form)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'The form has been Updated')
+
+            return redirect('testzone')
+    else:
+        form = UserProfileForm(instance=user)
+
+    context = {
+        'form': form
+    }
+    return render(request, 'dashboard/more_info_user.html', context)
+
 
 @login_required
 def dashboard(request):
@@ -28,11 +53,12 @@ def dashboard(request):
 
 
 @login_required
+@csrf_exempt
 def create_sub(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         payment_method = data['payment_method']
-        stripe.api_key = djstripe.settings.STRIPE_SECRET_KEY
+        stripe.api_key = djstripe.settings.djstripe_settings.STRIPE_SECRET_KEY
 
         payment_method_obj = stripe.PaymentMethod.retrieve(payment_method)
         djstripe.models.PaymentMethod.sync_from_stripe_data(payment_method_obj)
@@ -42,7 +68,7 @@ def create_sub(request):
                 payment_method=payment_method,
                 email=request.user.email,
                 invoice_settings={
-                    'default_payment_method':payment_method
+                    'default_payment_method': payment_method
                 }
             )
             djstripe_customer = djstripe.models.Customer.sync_from_stripe_data(customer)
@@ -59,18 +85,34 @@ def create_sub(request):
 
             djstripe_subscription = djstripe.models.Subscription.sync_from_stripe_data(subscription)
 
-            request.user.userprofile.subscription = subscription
+            request.user.userprofile.subscription = subscription.id
             request.user.userprofile.save()
 
             return JsonResponse(subscription)
 
         except Exception as e:
-            return  JsonResponse({'error': (e.args[0])}, status=403)
-
-
+            return JsonResponse({'error': (e.args[0])}, status=403)
     else:
         return HttpResponse('Request method not allowed')
 
+
+@login_required
+@csrf_exempt
+def delete_sub(request):
+    if request.method == 'POST':
+        plan = request.POST.get('cancel_plan', 'Basic')
+
+        to_change = request.user.userprofile
+
+        to_change.plan = plan
+        to_change.save()
+
+        messages.success(request, 'Your Pro Membership has been cancelled ')
+
+        return redirect('settings')
+
+    else:
+        return HttpResponse('Request method not allowed')
 
 
 @login_required
@@ -112,7 +154,6 @@ def settings(request):
         first_name = request.POST.get('first_name', '')
         last_name = request.POST.get('last_name', '')
         username = request.POST.get('username', '')
-        plan = request.POST.get('plan', '')
 
         user = request.user
 
@@ -127,9 +168,6 @@ def settings(request):
         user.first_name = first_name
         user.last_name = last_name
         user.save()
-
-        user.userprofile.plan = plan
-        user.userprofile.save()
 
         messages.success(request, 'The changes have been saved ')
 

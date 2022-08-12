@@ -1,3 +1,4 @@
+{% load bootstrap5 %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="">
@@ -14,7 +15,7 @@
       <style>
         #footer {
             position: fixed;
-            padding: 10px 10px 0px 10px;
+            padding: 5px 5px 0px 10px;
             bottom: 0;
             width: 100%;
             /* Height of the footer*/
@@ -25,17 +26,24 @@
   </head>
   <body>
   <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-          <a href="{% url 'frontpage' %}" class="navbar-item">
-              {% load static %}
-                <img src="{% static '/img/spie.png' %}" alt="Spie">
-          </a>
-      </div>
+      {% if request.user.userprofile.logo %}
+          <div class="navbar-brand">
+              <a href="{% url 'frontpage' %}" class="navbar-item">
+                    <img src="{{request.user.userprofile.logo.url}}" alt="Spie">
+              </a>
+              <p class="navbar-item">{{request.user.userprofile.company}}</p>
+          </div>
+      {% else %}
+      {% endif %}
       <div class="navbar-menu">
       {% if request.user.is_authenticated %}
         <div class="navbar-start">
+            <a href="{% url 'testzone' %}" class="navbar-item"> Tester </a>
             <a href="{% url 'dashboard' %}" class="navbar-item"> Chiffrage </a>
-            <a href="{% url 'testzone' %}" class="navbar-item"> Test Zone </a>
+            <a href="{% url 'inventaire_des_strategies_de_groupe'%}" class="navbar-item"> Inventaire GPO </a>
+            <a href="{%  url 'points_de_controle_ad' %}" class="navbar-item"> PC AD </a>
+            <a href="{%  url 'rapport_de_conf_ad' %}" class="navbar-item"> Rapport de Conf </a>
+            <a href="{%  url 'rapport_d_inventaire_ad' %}" class="navbar-item"> Rapport d'inventaire </a>
         </div>
 
           {% else %}
@@ -64,8 +72,18 @@
     {%  endblock %}
   </section>
   <footer class="footer" id="footer">
-      <div class="content has-text-centered">
-          <p> <strong> Secad </strong> </p>
+      <div class="columns">
+          <div class="column">
+              <a href="{% url 'frontpage' %}" class="navbar-item">
+              {% load static %}
+                <img src="{% static '/img/spie.png' %}" alt="Spie">
+          </a>
+          </div>
+          <div class="column is-right" style = "position:relative; left:480px; top:2px;">
+              <div class="p-2">
+                <p>Copyright &#169; 2022 SPIE ICS</p>
+              </div>
+          </div>
       </div>
   </footer>
 

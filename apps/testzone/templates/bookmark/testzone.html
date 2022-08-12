@@ -15,8 +15,7 @@
                 </article>
             {% endfor %}
         {% endif %}
-        <a href="{% url 'testzone_add' %}" class="button is-link"> Add Test</a>
-        <a href="#" class="button is-link"> Launch Test</a>
+        <a href="{% url 'file_selector' %}" class="button is-link"> Add Test</a>
     </div>
     <div class="container">
         <div class="columns">
@@ -34,13 +33,15 @@
                                 {{ TestCategory.description }}
                             </div>
                             <progress class="progress is-primary" value="{{ TestCategory.score }}" max="100">{{ TestCategory.score }}</progress>
+                            <progress class="progress is-primary" value="{{ TestCategory.score }}" max="100">{{ TestCategory.score }}</progress>
+                            <progress class="progress is-primary" value="{{ TestCategory.score }}" max="100">{{ TestCategory.score }}</progress>
                         </div>
                         <footer class="card-footer" id="delete-category">
                             <a href="{% url 'individualtestzone' TestCategory.id %}" class="card-footer-item"> Details </a>
-                            <a href="{% url 'testzone_edit' TestCategory.id %}" class="card-footer-item"> Edit </a>
+                            <!--<a href="{% url 'testzone_edit' TestCategory.id %}" class="card-footer-item"> Edit </a>-->
                             <a href="#" class="card-footer-item"> Redo </a>
                             <a href="{% url 'testzone_chiffrer' TestCategory.id %}" class="card-footer-item"> Chiffrer </a>
-                            <a @click="toggleDialog({{ TestCategory.id }})" class="card-footer-item" > Delete </a>
+                            <a href="{% url 'testzone_delete' TestCategory.id %}" class="card-footer-item" > Delete </a>
                         </footer>
                     </div>
                 {% endfor %}
